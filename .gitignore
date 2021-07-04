@@ -1,3 +1,10 @@
+# OS Files
+.DS_Store
+
+# IDE
+.idea/*
+/.idea/
+/**/.idea/*
 # Compiled class file
 *.class
 
