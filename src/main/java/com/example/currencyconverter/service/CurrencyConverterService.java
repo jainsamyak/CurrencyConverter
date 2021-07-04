@@ -31,10 +31,12 @@ public class CurrencyConverterService {
             targetCurrency = Utilities.convertToUpperCase(targetCurrency);
 
             ExchangeRate exchangeRate = this.exchangeRatesService.getExchangeRates();
-            Double convertedBaseCurrency = this.exchangeRatesService.convertAmountFromTargetToBase(currencyAmount, sourceCurrency, exchangeRate);
-            Double convertedTargetCurrency = this.exchangeRatesService.convertAmountFromBaseToTarget(convertedBaseCurrency, targetCurrency, exchangeRate);
+            Double convertedBaseCurrency = Utilities.roundNumber(this.exchangeRatesService.convertAmountFromTargetToBase(currencyAmount, sourceCurrency, exchangeRate));
+            Double convertedTargetCurrency = Utilities.roundNumber(this.exchangeRatesService.convertAmountFromBaseToTarget(convertedBaseCurrency, targetCurrency, exchangeRate));
             String formattedAmount = this.currencyFormatService.formatCurrency(targetCurrency, convertedTargetCurrency);
-            return new CurrencyExchange(sourceCurrency, targetCurrency, convertedTargetCurrency, formattedAmount);
+            Double rate = Utilities.roundNumber(convertedTargetCurrency / currencyAmount, 5);
+
+            return new CurrencyExchange(sourceCurrency, targetCurrency, rate, convertedTargetCurrency, formattedAmount);
         }
         catch (ExchangeRateNotFoundException e){
             throw e;

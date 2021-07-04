@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.currencyconverter.service.CurrencyConverterService;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @RestController
@@ -34,7 +35,10 @@ public class CurrencyConverterController {
     }
 
     @GetMapping(value = "/convert", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity convertCurrency(@RequestParam(name = "source") @Size(min = 3, max = 3, message = "source should be exactly {min} characters long") String sourceCurrency, @RequestParam(name = "target") String targetCurrency, @RequestParam(name = "amount") @Min(value = 0, message = "amount should be greater than {value}") Double currencyAmount){
+    public ResponseEntity convertCurrency(
+            @RequestParam(name = "source") @NotEmpty @Size(min = 3, max = 3, message = "source should be exactly {min} characters long") String sourceCurrency,
+            @RequestParam(name = "target") @NotEmpty @Size(min = 3, max = 3, message = "target should be exactly {min} characters long") String targetCurrency,
+            @RequestParam(name = "amount") @Min(value = 0, message = "amount should be greater than {value}") Double currencyAmount){
         CurrencyExchange currencyExchange = currencyConverterService.convertCurrency(sourceCurrency, targetCurrency, currencyAmount);
         return APIResponse.sendResponse(HttpStatus.OK, currencyExchange, null);
     }
