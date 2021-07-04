@@ -28,6 +28,11 @@ public class CurrencyConverterController {
         this.currencyConverterService = currencyConverterService;
     }
 
+    @GetMapping
+    public String getDefault(){
+        return "Welcome to Currency Converter!";
+    }
+
     @GetMapping(value = "/convert", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity convertCurrency(@RequestParam(name = "source") @Size(min = 3, max = 3, message = "source should be exactly {min} characters long") String sourceCurrency, @RequestParam(name = "target") String targetCurrency, @RequestParam(name = "amount") @Min(value = 0, message = "amount should be greater than {value}") Double currencyAmount){
         CurrencyExchange currencyExchange = currencyConverterService.convertCurrency(sourceCurrency, targetCurrency, currencyAmount);
