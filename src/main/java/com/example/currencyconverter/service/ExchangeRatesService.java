@@ -2,6 +2,7 @@ package com.example.currencyconverter.service;
 
 import com.example.currencyconverter.dto.ExchangeRate;
 import com.example.currencyconverter.exception.ExchangeRateNotFoundException;
+import com.example.currencyconverter.utils.Utilities;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,20 +60,14 @@ public class ExchangeRatesService {
     public Double convertAmountFromTargetToBase(Double amount, String targetCurrency, ExchangeRate exchangeRates) throws ExchangeRateNotFoundException {
         Double convertedAmount;
         convertedAmount = amount / exchangeRates.getCurrencyRate(targetCurrency);
-        return roundTo2DecimalPlaces(convertedAmount);
+        return convertedAmount;
     }
 
     public Double convertAmountFromBaseToTarget(Double amount, String targetCurrency, ExchangeRate exchangeRates) throws ExchangeRateNotFoundException {
         Double convertedAmount;
         convertedAmount = amount * exchangeRates.getCurrencyRate(targetCurrency);
-        return roundTo2DecimalPlaces(convertedAmount);
+        return convertedAmount;
     }
-
-    private Double roundTo2DecimalPlaces(Double number){
-        DecimalFormat format = new DecimalFormat("##.00");
-        return Double.parseDouble(format.format(number));
-    }
-
 
     // Schedule Cache Eviction for every 1 hour
     @Scheduled(fixedDelay = 60 * 1000)

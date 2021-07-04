@@ -12,6 +12,7 @@ import lombok.Setter;
 public class CurrencyExchange {
     private String source;
     private String target;
+    private Double rate;
     private Double amount;
     private String result;
 }

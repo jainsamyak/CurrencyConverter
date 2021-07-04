@@ -34,7 +34,9 @@ public class CurrencyConverterService {
             Double convertedBaseCurrency = this.exchangeRatesService.convertAmountFromTargetToBase(currencyAmount, sourceCurrency, exchangeRate);
             Double convertedTargetCurrency = this.exchangeRatesService.convertAmountFromBaseToTarget(convertedBaseCurrency, targetCurrency, exchangeRate);
             String formattedAmount = this.currencyFormatService.formatCurrency(targetCurrency, convertedTargetCurrency);
-            return new CurrencyExchange(sourceCurrency, targetCurrency, convertedTargetCurrency, formattedAmount);
+            Double rate = Utilities.roundNumber(convertedTargetCurrency / currencyAmount, 5);
+
+            return new CurrencyExchange(sourceCurrency, targetCurrency, rate, Utilities.roundNumber(convertedTargetCurrency, 5), formattedAmount);
         }
         catch (ExchangeRateNotFoundException e){
             throw e;
