@@ -3,6 +3,7 @@ package com.example.currencyconverter.service;
 import com.example.currencyconverter.dto.CurrencyExchange;
 import com.example.currencyconverter.dto.ExchangeRate;
 import com.example.currencyconverter.exception.ExchangeRateNotFoundException;
+import com.example.currencyconverter.utils.Utilities;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class CurrencyConverterService {
 
     public CurrencyExchange convertCurrency(String sourceCurrency, String targetCurrency, Double currencyAmount){
         try {
+            sourceCurrency = Utilities.convertToUpperCase(sourceCurrency);
+            targetCurrency = Utilities.convertToUpperCase(targetCurrency);
+
             ExchangeRate exchangeRate = this.exchangeRatesService.getExchangeRates();
             Double convertedBaseCurrency = this.exchangeRatesService.convertAmountFromTargetToBase(currencyAmount, sourceCurrency, exchangeRate);
             Double convertedTargetCurrency = this.exchangeRatesService.convertAmountFromBaseToTarget(convertedBaseCurrency, targetCurrency, exchangeRate);
