@@ -70,7 +70,7 @@ public class ExchangeRatesService {
     }
 
     // Schedule Cache Eviction for every 1 hour
-    @Scheduled(fixedDelay = 60 * 1000)
+    @Scheduled(fixedDelay = 60 * 60 * 1000)
     public void evictCacheScheduler(){
         logger.info("Evicting cache for " + CACHE_NAME);
         this.cacheManager.getCache(CACHE_NAME).clear();
